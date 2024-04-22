@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agnhost
+spec:
+  replicas: 1
+  selector:
+    matchLabels: &labels
+      app: agnhost
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+        - name: agnhost
+          image: registry.k8s.io/e2e-test-images/agnhost:2.39
+          ports:
+            - name: first-port
+              containerPort: {{ .Values.firstPort }}
+              protocol: TCP
+            - name: second-port
+              containerPort: {{ .Values.secondPort }}
+              protocol: TCP
